@@ -8,7 +8,9 @@ module ExpenseTracker
       super()
     end
     post '/expenses' do
-      JSON.generate('expense_id' => 42)
+      expense = JSON.parse(request.body.read)
+      result = @ledger.record(expense)
+      JSON.generate('expense_id' => result.expense_id)
     end
 
     get '/expenses/:date' do
